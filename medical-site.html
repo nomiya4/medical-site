@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>メディカルデータビューア</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Helvetica', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f8;
+    }
+
+    header {
+      background-color: #0077b6;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #e0f0ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #ddd;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>メディカルデータビューア</h1>
+    <nav>
+      <a href="#">ホーム</a>
+      <a href="#">患者リスト</a>
+      <a href="#">レポート</a>
+      <a href="#">設定</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>患者一覧</h2>
+    <input type="text" placeholder="患者名・IDを検索">
+
+    <table>
+      <thead>
+        <tr>
+          <th>患者ID</th>
+          <th>名前</th>
+          <th>年齢</th>
+          <th>性別</th>
+          <th>診断日</th>
+          <th>詳細</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>P0001</td>
+          <td>山田 太郎</td>
+          <td>58</td>
+          <td>男性</td>
+          <td>2025-07-10</td>
+          <td><a href="#">表示</a></td>
+        </tr>
+        <tr>
+          <td>P0002</td>
+          <td>佐藤 花子</td>
+          <td>43</td>
+          <td>女性</td>
+          <td>2025-08-01</td>
+          <td><a href="#">表示</a></td>
+        </tr>
+        <!-- 他のデータ -->
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    &copy; 2025 メディカルデータビューア. All rights reserved.
+  </footer>
+
+</body>
+</html>
