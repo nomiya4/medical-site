@@ -1,101 +1,116 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>DATuM IDEA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-    }
-    header {
-      background-color: #003366;
-      color: white;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 { margin: 0; font-size: 24px; }
-    nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
-    .hero { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1581092334494-05b6a3c8fcd1'); background-size: cover; background-position: center; color: white; text-align: center; padding: 100px 20px; }
-    .hero h2 { font-size: 36px; margin-bottom: 20px; }
-    .hero p { font-size: 18px; max-width: 600px; margin: 0 auto; }
-    .section { padding: 60px 20px; max-width: 1000px; margin: auto; }
-    .section h3 { font-size: 24px; margin-bottom: 20px; border-left: 6px solid #0077b6; padding-left: 12px; }
-    .cards { display: flex; flex-wrap: wrap; gap: 20px; }
-    .card { flex: 1; min-width: 250px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .card h4 { margin-top: 0; }
-    .contact { background-color: #eef2f3; padding: 40px 20px; text-align: center; }
-    .contact p { margin: 10px 0; }
-    footer { background-color: #003366; color: white; text-align: center; padding: 20px; font-size: 14px; }
+    body { margin:0; font-family: Arial, sans-serif; background:#f8f9fa; color:#333; }
+    header { background:#003366; color:#fff; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:24px; }
+    nav a { color:#fff; text-decoration:none; margin-left:20px; font-size:14px; }
 
-    /* PCチャットボット */
-    #chatbot-pc {
+    .hero {
+      background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1581092334494-05b6a3c8fcd1');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+    }
+    .hero h2 { font-size:36px; margin-bottom:20px; }
+    .hero p { font-size:18px; max-width:600px; margin:0 auto; }
+
+    .section { padding:60px 20px; max-width:1000px; margin:auto; }
+    .section h3 { font-size:24px; margin-bottom:20px; border-left:6px solid #0077b6; padding-left:12px; }
+    .cards { display:flex; flex-wrap:wrap; gap:20px; }
+    .card { flex:1; min-width:250px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+    .card h4 { margin-top:0; }
+
+    .contact { background:#eef2f3; padding:40px 20px; text-align:center; }
+    footer { background:#003366; color:#fff; text-align:center; padding:20px; font-size:14px; }
+
+    /* -------- chat container (PC) -------- */
+    #chatbot-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 400px;
-      height: 50vh;
+      height: 50vh; /* default */
+      z-index: 9999;
+      pointer-events: none; /* let inner iframe accept events */
+    }
+    /* when fullscreen on desktop, make container full height */
+    #chatbot-container.fullscreen {
+      top: 0;
+      bottom: 0;
+      right: 20px;
+      left: auto;
+      height: 100vh;
+    }
+
+    /* iframe fills container */
+    #chatbot-pc {
+      width: 100%;
+      height: 100%;
       border: none;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 9999;
+      display: block;
+      pointer-events: auto;
     }
 
-    /* ボタン類をiframe外に配置 */
-    #chatbot-controls {
+    /* -------- external buttons (outside iframe) -------- */
+    /* common style for outside buttons */
+    .chat-btn {
       position: fixed;
-      right: 25px;
-      bottom: calc(50vh + 40px);
-      display: flex;
-      gap: 6px;
       z-index: 10000;
-    }
-
-    #chatbot-resize, #chatbot-close-pc {
-      background-color: #1C64F2;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 8px;
+      font-size: 16px;
       cursor: pointer;
-      font-size: 14px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 
+    /* resize button (outside top-right of the container area) */
+    #chatbot-resize {
+      background: #1C64F2;
+      right: 20px;
+      bottom: calc(50vh + 30px); /* default: positioned above container */
+    }
+    /* close button */
     #chatbot-close-pc {
-      background-color: #ff4d4d;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      font-weight: bold;
-      font-size: 14px;
-      text-align: center;
-      line-height: 28px;
+      background: #ff4d4d;
+      right: 90px;
+      bottom: calc(50vh + 30px);
+      width:34px; height:34px; border-radius:50%; padding:0; font-weight:bold;
     }
 
-    /* 再表示ボタン */
+    /* when container is fullscreen adjust buttons to top-right of viewport */
+    #chatbot-container.fullscreen ~ #chatbot-resize {
+      bottom: 20px;
+    }
+    #chatbot-container.fullscreen ~ #chatbot-close-pc {
+      bottom: 20px;
+    }
+
+    /* show button (when chat hidden) */
     #chatbot-show-pc {
       display: none;
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background-color: #1C64F2;
-      color: white;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 50px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 9999;
+      background:#1C64F2;
+      color:#fff;
+      padding:12px 18px;
+      border-radius:50px;
+      z-index:9999;
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* SP用ボタン */
+    /* -------- mobile -------- */
     #chatbot-button {
       display: none;
       position: fixed;
@@ -111,41 +126,23 @@
       cursor: pointer;
       z-index: 9999;
     }
-
-    /* SP全画面iframe */
     #chatbot-sp {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: none;
-      z-index: 10000;
-      background-color: white;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: none; z-index: 10000; background: white;
     }
     #chatbot-close-sp {
       display: none;
       position: fixed;
       top: 20px; right: 20px;
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 36px; height: 36px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 10001;
-    }
-
-    /* PC拡大時 */
-    #chatbot-pc.fullscreen {
-      height: 100vh;
-    }
-    #chatbot-controls.fullscreen {
-      bottom: calc(100vh + 10px);
+      background:#ff4d4d; color:#fff; border:none;
+      width:36px; height:36px; border-radius:50%; z-index:10001;
     }
 
     @media (max-width: 768px) {
-      #chatbot-pc, #chatbot-controls, #chatbot-show-pc { display: none; }
+      /* hide desktop pieces on mobile */
+      #chatbot-container, #chatbot-resize, #chatbot-close-pc, #chatbot-show-pc { display: none !important; }
       #chatbot-button { display: block; }
     }
   </style>
@@ -170,9 +167,18 @@
   <section class="section">
     <h3>事業内容</h3>
     <div class="cards">
-      <div class="card"><h4>医療データ提供</h4><p>全国の医療機関から収集した信頼性の高いデータを提供。</p></div>
-      <div class="card"><h4>解析・可視化ツール</h4><p>直感的な操作でデータ解析や可視化が可能です。</p></div>
-      <div class="card"><h4>カスタムレポート</h4><p>用途に合わせた分析レポートを作成し、意思決定を支援します。</p></div>
+      <div class="card">
+        <h4>医療データ提供</h4>
+        <p>全国の医療機関から収集した信頼性の高いデータを提供。</p>
+      </div>
+      <div class="card">
+        <h4>解析・可視化ツール</h4>
+        <p>直感的な操作でデータ解析や可視化が可能です。</p>
+      </div>
+      <div class="card">
+        <h4>カスタムレポート</h4>
+        <p>用途に合わせた分析レポートを作成し、意思決定を支援します。</p>
+      </div>
     </div>
   </section>
 
@@ -185,63 +191,75 @@
 
   <footer>&copy; 2025 DATuM IDEA. All rights reserved.</footer>
 
-  <!-- PC用チャットボット -->
-  <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
-
-  <!-- PC用ボタン群（iframe外） -->
-  <div id="chatbot-controls">
-    <button id="chatbot-resize">🔼</button>
-    <button id="chatbot-close-pc">×</button>
+  <!-- PC chat container (iframe fills it) -->
+  <div id="chatbot-container">
+    <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
   </div>
 
+  <!-- external desktop controls -->
+  <button id="chatbot-resize" class="chat-btn" aria-label="拡大縮小">🔼</button>
+  <button id="chatbot-close-pc" aria-label="閉じる">×</button>
   <button id="chatbot-show-pc">💬 チャットボット</button>
 
-  <!-- SP用 -->
+  <!-- mobile -->
   <button id="chatbot-button">💬 チャットボットはこちら！</button>
   <iframe id="chatbot-sp" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
   <button id="chatbot-close-sp">×</button>
 
   <script>
-    // PC拡大縮小
-    const pcIframe = document.getElementById('chatbot-pc');
+    // ---------- PC: resize, close, show ----------
+    const container = document.getElementById('chatbot-container');
     const resizeBtn = document.getElementById('chatbot-resize');
+    const closePc = document.getElementById('chatbot-close-pc');
+    const showPc = document.getElementById('chatbot-show-pc');
+
     let isFull = false;
     resizeBtn.addEventListener('click', () => {
       isFull = !isFull;
-      pcIframe.classList.toggle('fullscreen', isFull);
+      container.classList.toggle('fullscreen', isFull);
       resizeBtn.textContent = isFull ? '🔽' : '🔼';
+      // reposition the buttons immediately (some browsers need repaint)
+      window.requestAnimationFrame(() => {});
     });
 
-    // PC閉じる / 再表示
-    const closePc = document.getElementById('chatbot-close-pc');
-    const showPc = document.getElementById('chatbot-show-pc');
-    const controls = document.getElementById('chatbot-controls');
     closePc.addEventListener('click', () => {
-      pcIframe.style.display = 'none';
-      controls.style.display = 'none';
+      container.style.display = 'none';
+      resizeBtn.style.display = 'none';
+      closePc.style.display = 'none';
       showPc.style.display = 'block';
     });
+
     showPc.addEventListener('click', () => {
-      pcIframe.style.display = 'block';
-      controls.style.display = 'flex';
+      container.style.display = 'block';
+      resizeBtn.style.display = 'inline-block';
+      closePc.style.display = 'inline-block';
       showPc.style.display = 'none';
     });
 
-    // SP開閉
-    const btn = document.getElementById('chatbot-button');
+    // ---------- Mobile: open full screen iframe ----------
+    const mobileBtn = document.getElementById('chatbot-button');
     const spIframe = document.getElementById('chatbot-sp');
     const spClose = document.getElementById('chatbot-close-sp');
-    btn.addEventListener('click', () => {
+
+    mobileBtn.addEventListener('click', () => {
       spIframe.style.display = 'block';
       spClose.style.display = 'block';
-      btn.style.display = 'none';
+      mobileBtn.style.display = 'none';
     });
+
     spClose.addEventListener('click', () => {
       spIframe.style.display = 'none';
       spClose.style.display = 'none';
-      btn.style.display = 'block';
+      mobileBtn.style.display = 'block';
+    });
+
+    // Accessibility: keyboard toggle (optional)
+    resizeBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') resizeBtn.click();
+    });
+    closePc.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') closePc.click();
     });
   </script>
-
 </body>
 </html>
