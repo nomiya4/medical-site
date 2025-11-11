@@ -1,110 +1,109 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <title>DATuM IDEA</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    body { margin:0; font-family:Arial,sans-serif; background:#f8f9fa; color:#333; }
-    header { background:#003366; color:#fff; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
-    header h1 { margin:0; font-size:24px; }
-    nav a { color:#fff; text-decoration:none; margin-left:20px; font-size:14px; }
+<meta charset="utf-8" />
+<title>DATuM IDEA</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+body { margin:0; font-family:Arial,sans-serif; background:#f8f9fa; color:#333; }
+header { background:#003366; color:#fff; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
+header h1 { margin:0; font-size:24px; }
+nav a { color:#fff; text-decoration:none; margin-left:20px; font-size:14px; }
 
-    .hero { background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('https://images.unsplash.com/photo-1581092334494-05b6a3c8fcd1') center/cover;
-      color:#fff; text-align:center; padding:100px 20px; }
-    .hero h2 { font-size:36px; margin-bottom:20px; }
-    .hero p { font-size:18px; max-width:600px; margin:0 auto; }
-    .section { padding:60px 20px; max-width:1000px; margin:auto; }
-    .section h3 { font-size:24px; margin-bottom:20px; border-left:6px solid #0077b6; padding-left:12px; }
-    .cards { display:flex; flex-wrap:wrap; gap:20px; }
-    .card { flex:1; min-width:250px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
-    .contact { background:#eef2f3; padding:40px 20px; text-align:center; }
-    footer { background:#003366; color:#fff; text-align:center; padding:20px; font-size:14px; }
+.hero { background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('https://images.unsplash.com/photo-1581092334494-05b6a3c8fcd1') center/cover;
+color:#fff; text-align:center; padding:100px 20px; }
+.hero h2 { font-size:36px; margin-bottom:20px; }
+.hero p { font-size:18px; max-width:600px; margin:0 auto; }
 
-    /* PCチャットコンテナ */
-    #chatbot-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 350px;
-      height: 50vh;
-      z-index: 9999;
-    }
-    #chatbot-container.fullscreen {
-      top: 0;
-      bottom: 0;
-      height: 100vh;
-      cursor: default;
-    }
-    #chatbot-pc {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
+.section { padding:60px 20px; max-width:1000px; margin:auto; }
+.section h3 { font-size:24px; margin-bottom:20px; border-left:6px solid #0077b6; padding-left:12px; }
+.cards { display:flex; flex-wrap:wrap; gap:20px; }
+.card { flex:1; min-width:250px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+.contact { background:#eef2f3; padding:40px 20px; text-align:center; }
+footer { background:#003366; color:#fff; text-align:center; padding:20px; font-size:14px; }
 
-    /* ドラッグバー */
-    #chatbot-dragbar {
-      width: 100%;
-      height: 24px;
-      cursor: move;
-      background: rgba(0,0,0,0.1);
-      border-top-left-radius:12px;
-      border-top-right-radius:12px;
-    }
+/* PCチャット */
+#chatbot-container {
+  position: fixed;
+  bottom:20px;
+  right:20px;
+  width:350px;
+  height:50vh;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+}
 
-    /* 外付けボタン */
-    .chatbot-action {
-      position: fixed; z-index:10000; font-size:16px; cursor:pointer; border:none;
-      padding:8px 10px; border-radius:6px; color:#fff; box-shadow:0 3px 8px rgba(0,0,0,0.15);
-    }
-    #chatbot-resize { background:#1C64F2; bottom:calc(50vh + 26px); right:20px; }
-    #chatbot-close-pc { background:#ff4d4d; bottom:calc(50vh + 26px); right:86px; width:36px; height:36px; border-radius:50%; font-weight:bold; }
-    #chatbot-show-pc { display:none; background:#1C64F2; bottom:20px; right:20px; padding:12px 16px; border-radius:50px; }
+#chatbot-container.fullscreen {
+  top:0; bottom:0;
+  height:100vh;
+}
 
-    /* スマホ用 */
-    #chatbot-button { display:none; position:fixed; bottom:20px; right:20px;
-      background:#1C64F2; color:#fff; padding:12px 18px; border-radius:50px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:9999; border:none; cursor:pointer;
-    }
-    #chatbot-sp { display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:10000; background:#fff; }
-    #chatbot-close-sp { display:none; position:fixed; top:20px; right:20px; z-index:10001; width:36px; height:36px; border-radius:50%; background:#ff4d4d; color:#fff; border:none; font-weight:bold; cursor:pointer; }
+#chatbot-dragbar {
+  height:24px;
+  background: rgba(0,0,0,0.1);
+  cursor: move;
+  border-top-left-radius:12px;
+  border-top-right-radius:12px;
+}
 
-    @media (max-width:768px){
-      #chatbot-container, #chatbot-resize, #chatbot-close-pc, #chatbot-show-pc { display:none!important; }
-      #chatbot-button{ display:block; }
-    }
-  </style>
+#chatbot-pc {
+  width:100%;
+  flex:1;
+  border:none;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.chatbot-action {
+  position: absolute; font-size:16px; cursor:pointer; border:none;
+  padding:8px 10px; border-radius:6px; color:#fff; box-shadow:0 3px 8px rgba(0,0,0,0.15);
+}
+
+#chatbot-resize { top:4px; right:40px; background:#1C64F2; }
+#chatbot-close-pc { top:4px; right:4px; width:32px; height:32px; background:#ff4d4d; font-weight:bold; }
+
+#chatbot-show-pc { display:none; position:fixed; bottom:20px; right:20px; background:#1C64F2; color:#fff; padding:12px 16px; border-radius:50px; z-index:10000; }
+
+/* スマホ */
+#chatbot-button { display:none; position:fixed; bottom:20px; right:20px; background:#1C64F2; color:#fff; padding:12px 18px; border-radius:50px; box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:9999; border:none; cursor:pointer; }
+#chatbot-sp { display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:10000; background:#fff; }
+#chatbot-close-sp { display:none; position:fixed; top:20px; right:20px; z-index:10001; width:36px; height:36px; border-radius:50%; background:#ff4d4d; color:#fff; border:none; font-weight:bold; cursor:pointer; }
+
+@media(max-width:768px){
+  #chatbot-container, #chatbot-resize, #chatbot-close-pc, #chatbot-show-pc { display:none!important; }
+  #chatbot-button { display:block; }
+}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>DATuM IDEA</h1>
-  <nav>
-    <a href="#">企業情報</a><a href="#">製品紹介</a><a href="#">研究開発</a><a href="#">お問い合わせ</a>
-  </nav>
+<h1>DATuM IDEA</h1>
+<nav>
+  <a href="#">企業情報</a><a href="#">製品紹介</a><a href="#">研究開発</a><a href="#">お問い合わせ</a>
+</nav>
 </header>
 
 <div class="hero">
-  <h2>未来の医療を、いま創る。</h2>
-  <p>最先端の医療データと研究技術で、人々の健康と未来に貢献します。</p>
+<h2>未来の医療を、いま創る。</h2>
+<p>最先端の医療データと研究技術で、人々の健康と未来に貢献します。</p>
 </div>
 
 <section class="section">
-  <h3>事業内容</h3>
-  <div class="cards">
-    <div class="card"><h4>医療データ提供</h4><p>全国の医療機関から収集した信頼性の高いデータを提供。</p></div>
-    <div class="card"><h4>解析・可視化ツール</h4><p>直感的な操作でデータ解析や可視化が可能です。</p></div>
-    <div class="card"><h4>カスタムレポート</h4><p>用途に合わせた分析レポートを作成し、意思決定を支援します。</p></div>
-  </div>
+<h3>事業内容</h3>
+<div class="cards">
+  <div class="card"><h4>医療データ提供</h4><p>全国の医療機関から収集した信頼性の高いデータを提供。</p></div>
+  <div class="card"><h4>解析・可視化ツール</h4><p>直感的な操作でデータ解析や可視化が可能です。</p></div>
+  <div class="card"><h4>カスタムレポート</h4><p>用途に合わせた分析レポートを作成し、意思決定を支援します。</p></div>
+</div>
 </section>
 
 <section class="contact">
-  <h3>お問い合わせ</h3>
-  <p>〒100-0000 東京都千代田区○○ビル 5F</p>
-  <p>メール: contact@datumidea.co.jp</p>
-  <p>電話: 03-1234-5678</p>
+<h3>お問い合わせ</h3>
+<p>〒100-0000 東京都千代田区○○ビル 5F</p>
+<p>メール: contact@datumidea.co.jp</p>
+<p>電話: 03-1234-5678</p>
 </section>
 
 <footer>&copy; 2025 DATuM IDEA. All rights reserved.</footer>
@@ -113,9 +112,9 @@
 <div id="chatbot-container">
   <div id="chatbot-dragbar"></div>
   <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
+  <button id="chatbot-resize" class="chatbot-action">🔼</button>
+  <button id="chatbot-close-pc" class="chatbot-action">×</button>
 </div>
-<button id="chatbot-resize" class="chatbot-action">🔼</button>
-<button id="chatbot-close-pc">×</button>
 <button id="chatbot-show-pc">💬 チャットボット</button>
 
 <!-- スマホ -->
@@ -124,71 +123,67 @@
 <button id="chatbot-close-sp">×</button>
 
 <script>
-  const container = document.getElementById('chatbot-container');
-  const dragbar = document.getElementById('chatbot-dragbar');
-  const resizeBtn = document.getElementById('chatbot-resize');
-  const closePcBtn = document.getElementById('chatbot-close-pc');
-  const showPcBtn = document.getElementById('chatbot-show-pc');
+const container=document.getElementById('chatbot-container');
+const dragbar=document.getElementById('chatbot-dragbar');
+const resizeBtn=document.getElementById('chatbot-resize');
+const closePcBtn=document.getElementById('chatbot-close-pc');
+const showPcBtn=document.getElementById('chatbot-show-pc');
 
-  // 拡大 / 縮小
-  let isFull = false;
-  resizeBtn.addEventListener('click', () => {
-    isFull = !isFull;
-    container.classList.toggle('fullscreen', isFull);
-    resizeBtn.textContent = isFull ? '🔽' : '🔼';
-  });
+// 拡大 / 縮小
+let isFull=false;
+resizeBtn.addEventListener('click',()=>{
+  isFull=!isFull;
+  container.classList.toggle('fullscreen',isFull);
+  resizeBtn.textContent=isFull?'🔽':'🔼';
+});
 
-  // 閉じる / 再表示
-  closePcBtn.addEventListener('click', () => {
-    container.style.display='none';
-    resizeBtn.style.display='none';
-    closePcBtn.style.display='none';
-    showPcBtn.style.display='block';
-  });
-  showPcBtn.addEventListener('click', () => {
-    container.style.display='block';
-    resizeBtn.style.display='';
-    closePcBtn.style.display='';
-    showPcBtn.style.display='none';
-  });
+// 閉じる / 再表示
+closePcBtn.addEventListener('click',()=>{
+  container.style.display='none';
+  showPcBtn.style.display='block';
+});
+showPcBtn.addEventListener('click',()=>{
+  container.style.display='flex';
+  showPcBtn.style.display='none';
+});
 
-  // スマホ全画面
-  const spOpenBtn = document.getElementById('chatbot-button');
-  const spIframe = document.getElementById('chatbot-sp');
-  const spCloseBtn = document.getElementById('chatbot-close-sp');
-  spOpenBtn.addEventListener('click', () => {
-    spIframe.style.display='block';
-    spCloseBtn.style.display='block';
-    spOpenBtn.style.display='none';
-  });
-  spCloseBtn.addEventListener('click', () => {
-    spIframe.style.display='none';
-    spCloseBtn.style.display='none';
-    spOpenBtn.style.display='block';
-  });
+// スマホ全画面
+const spOpenBtn=document.getElementById('chatbot-button');
+const spIframe=document.getElementById('chatbot-sp');
+const spCloseBtn=document.getElementById('chatbot-close-sp');
+spOpenBtn.addEventListener('click',()=>{
+  spIframe.style.display='block';
+  spCloseBtn.style.display='block';
+  spOpenBtn.style.display='none';
+});
+spCloseBtn.addEventListener('click',()=>{
+  spIframe.style.display='none';
+  spCloseBtn.style.display='none';
+  spOpenBtn.style.display='block';
+});
 
-  // ドラッグ（PCのみ）
-  let isDragging=false, offsetX, offsetY;
-  dragbar.addEventListener('mousedown', (e)=>{
-    if(container.classList.contains('fullscreen')) return;
-    isDragging=true;
-    const rect = container.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    container.style.transition='none';
-  });
-  window.addEventListener('mousemove', (e)=>{
-    if(!isDragging) return;
-    const newX = e.clientX - offsetX;
-    const newY = e.clientY - offsetY;
-    const maxX = window.innerWidth - container.offsetWidth;
-    const maxY = window.innerHeight - container.offsetHeight;
-    container.style.left = Math.min(Math.max(0,newX),maxX)+'px';
-    container.style.top = Math.min(Math.max(0,newY),maxY)+'px';
-    container.style.right='auto';
-    container.style.bottom='auto';
-  });
-  window.addEventListener('mouseup', ()=>{ isDragging=false; container.style.transition=''; });
+// ドラッグ（PCのみ）
+let isDragging=false, offsetX, offsetY;
+dragbar.addEventListener('mousedown',(e)=>{
+  if(container.classList.contains('fullscreen')) return;
+  isDragging=true;
+  const rect=container.getBoundingClientRect();
+  offsetX=e.clientX-rect.left;
+  offsetY=e.clientY-rect.top;
+  container.style.transition='none';
+});
+window.addEventListener('mousemove',(e)=>{
+  if(!isDragging) return;
+  const newX=e.clientX-offsetX;
+  const newY=e.clientY-offsetY;
+  const maxX=window.innerWidth-container.offsetWidth;
+  const maxY=window.innerHeight-container.offsetHeight;
+  container.style.left=Math.min(Math.max(0,newX),maxX)+'px';
+  container.style.top=Math.min(Math.max(0,newY),maxY)+'px';
+  container.style.right='auto';
+  container.style.bottom='auto';
+});
+window.addEventListener('mouseup',()=>{ isDragging=false; container.style.transition=''; });
 </script>
 </body>
 </html>
