@@ -46,10 +46,11 @@ footer { background:#003366; color:#fff; text-align:center; padding:20px; font-s
   font-weight:bold;
   font-size:18px;
   user-select:none;
+  position: relative;
 }
 #chatbot-dragbar::after {
-  content: "⛶"; /* 十字アイコン風 */
-  font-size:18px;
+  content:"\21F2"; /* Unicodeで十字カーソル風 */
+  font-size:20px;
   color:#333;
 }
 
@@ -138,12 +139,18 @@ const showPcBtn=document.getElementById('chatbot-show-pc');
 let isFull=false;
 let prevPos={top:null,left:null,height:null};
 
-// 拡大 / 縮小
+// 拡大 / 縮小（位置補正付き）
 resizeBtn.addEventListener('click',()=>{
   if(!isFull){
     const rect=container.getBoundingClientRect();
     prevPos={top:rect.top,left:rect.left,height:rect.height};
-    // 移動位置はそのまま維持
+    let newTop=rect.top;
+    if(rect.top + window.innerHeight < rect.height) newTop=0;
+    // 拡大時：縦幅を画面サイズに、横位置はそのまま、top補正
+    container.style.top=Math.min(rect.top,0)+'px';
+    if(rect.top+rect.height > window.innerHeight){
+      container.style.top = Math.max(0, window.innerHeight - window.innerHeight)+'px';
+    }
     container.style.height='100vh';
     container.style.bottom='auto';
     container.classList.add('fullscreen');
