@@ -30,26 +30,20 @@
     .contact { background:#eef2f3; padding:40px 20px; text-align:center; }
     footer { background:#003366; color:#fff; text-align:center; padding:20px; font-size:14px; }
 
-    /* -------- chat container (PC) -------- */
+    /* -------- PCチャットボット -------- */
     #chatbot-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 400px;
-      height: 50vh; /* default */
+      height: 50vh;
       z-index: 9999;
-      pointer-events: none; /* let inner iframe accept events */
+      cursor: move;
     }
-    /* when fullscreen on desktop, make container full height */
     #chatbot-container.fullscreen {
-      top: 0;
-      bottom: 0;
-      right: 20px;
-      left: auto;
-      height: 100vh;
+      top: 0; bottom: 0; right: 20px; height: 100vh;
     }
 
-    /* iframe fills container */
     #chatbot-pc {
       width: 100%;
       height: 100%;
@@ -57,46 +51,39 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       display: block;
-      pointer-events: auto;
     }
 
-    /* -------- external buttons (outside iframe) -------- */
-    /* common style for outside buttons */
-    .chat-btn {
-      position: fixed;
-      z-index: 10000;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-      color: white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-
-    /* resize button (outside top-right of the container area) */
+    /* 拡大縮小ボタン */
     #chatbot-resize {
+      position: absolute;
+      top: 8px;
+      right: 45px;
       background: #1C64F2;
-      right: 20px;
-      bottom: calc(50vh + 30px); /* default: positioned above container */
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 6px;
+      cursor: pointer;
+      z-index: 10001;
     }
-    /* close button */
+
+    /* ×ボタン */
     #chatbot-close-pc {
+      position: absolute;
+      top: 8px;
+      right: 8px;
       background: #ff4d4d;
-      right: 90px;
-      bottom: calc(50vh + 30px);
-      width:34px; height:34px; border-radius:50%; padding:0; font-weight:bold;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10001;
     }
 
-    /* when container is fullscreen adjust buttons to top-right of viewport */
-    #chatbot-container.fullscreen ~ #chatbot-resize {
-      bottom: 20px;
-    }
-    #chatbot-container.fullscreen ~ #chatbot-close-pc {
-      bottom: 20px;
-    }
-
-    /* show button (when chat hidden) */
+    /* 再表示ボタン */
     #chatbot-show-pc {
       display: none;
       position: fixed;
@@ -105,12 +92,14 @@
       background:#1C64F2;
       color:#fff;
       padding:12px 18px;
+      border:none;
       border-radius:50px;
       z-index:9999;
       box-shadow:0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
     }
 
-    /* -------- mobile -------- */
+    /* -------- スマホ -------- */
     #chatbot-button {
       display: none;
       position: fixed;
@@ -129,26 +118,31 @@
     #chatbot-sp {
       display: none;
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      border: none; z-index: 10000; background: white;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+      z-index: 10000;
+      background: white;
     }
     #chatbot-close-sp {
       display: none;
       position: fixed;
       top: 20px; right: 20px;
-      background:#ff4d4d; color:#fff; border:none;
-      width:36px; height:36px; border-radius:50%; z-index:10001;
+      background:#ff4d4d;
+      color:#fff;
+      border:none;
+      width:36px; height:36px;
+      border-radius:50%;
+      z-index:10001;
     }
 
     @media (max-width: 768px) {
-      /* hide desktop pieces on mobile */
       #chatbot-container, #chatbot-resize, #chatbot-close-pc, #chatbot-show-pc { display: none !important; }
       #chatbot-button { display: block; }
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>DATuM IDEA</h1>
     <nav>
@@ -191,52 +185,71 @@
 
   <footer>&copy; 2025 DATuM IDEA. All rights reserved.</footer>
 
-  <!-- PC chat container (iframe fills it) -->
+  <!-- PCチャットボット -->
   <div id="chatbot-container">
     <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
+    <button id="chatbot-close-pc">×</button>
+    <button id="chatbot-resize">🔼</button>
   </div>
-
-  <!-- external desktop controls -->
-  <button id="chatbot-resize" class="chat-btn" aria-label="拡大縮小">🔼</button>
-  <button id="chatbot-close-pc" aria-label="閉じる">×</button>
   <button id="chatbot-show-pc">💬 チャットボット</button>
 
-  <!-- mobile -->
+  <!-- スマホ -->
   <button id="chatbot-button">💬 チャットボットはこちら！</button>
   <iframe id="chatbot-sp" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
   <button id="chatbot-close-sp">×</button>
 
   <script>
-    // ---------- PC: resize, close, show ----------
+    // ======== PCボタン制御 ========
     const container = document.getElementById('chatbot-container');
     const resizeBtn = document.getElementById('chatbot-resize');
     const closePc = document.getElementById('chatbot-close-pc');
     const showPc = document.getElementById('chatbot-show-pc');
-
     let isFull = false;
+
     resizeBtn.addEventListener('click', () => {
       isFull = !isFull;
       container.classList.toggle('fullscreen', isFull);
       resizeBtn.textContent = isFull ? '🔽' : '🔼';
-      // reposition the buttons immediately (some browsers need repaint)
-      window.requestAnimationFrame(() => {});
     });
 
     closePc.addEventListener('click', () => {
       container.style.display = 'none';
-      resizeBtn.style.display = 'none';
-      closePc.style.display = 'none';
       showPc.style.display = 'block';
     });
 
     showPc.addEventListener('click', () => {
       container.style.display = 'block';
-      resizeBtn.style.display = 'inline-block';
-      closePc.style.display = 'inline-block';
       showPc.style.display = 'none';
     });
 
-    // ---------- Mobile: open full screen iframe ----------
+    // ======== ドラッグ移動機能 ========
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    container.addEventListener('mousedown', (e) => {
+      if (e.target.tagName === 'BUTTON') return; // ボタン上ではドラッグしない
+      isDragging = true;
+      offsetX = e.clientX - container.offsetLeft;
+      offsetY = e.clientY - container.offsetTop;
+      container.style.transition = 'none';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      container.style.transition = 'all 0.2s ease';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const x = e.clientX - offsetX;
+      const y = e.clientY - offsetY;
+      container.style.left = x + 'px';
+      container.style.top = y + 'px';
+      container.style.right = 'auto';
+      container.style.bottom = 'auto';
+    });
+
+    // ======== スマホ制御 ========
     const mobileBtn = document.getElementById('chatbot-button');
     const spIframe = document.getElementById('chatbot-sp');
     const spClose = document.getElementById('chatbot-close-sp');
@@ -251,14 +264,6 @@
       spIframe.style.display = 'none';
       spClose.style.display = 'none';
       mobileBtn.style.display = 'block';
-    });
-
-    // Accessibility: keyboard toggle (optional)
-    resizeBtn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') resizeBtn.click();
-    });
-    closePc.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') closePc.click();
     });
   </script>
 </body>
