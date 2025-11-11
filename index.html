@@ -103,121 +103,28 @@
       font-size: 14px;
     }
 
-    /* 💬 開閉ボタン（右上に配置） */
-    .chatbot-toggle {
-      position: fixed;   /* 画面に固定 */
-      top: 10px;         /* 画面上端から10px */
-      right: 30px;       /* iframeの右端に合わせて調整 */
-      width: 60px;
-      height: 60px;
-      background-color: #0099cc;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 28px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      z-index: 10000;
-      transition: background-color 0.3s ease;
-    }
-
-    .chatbot-toggle:hover {
-      background-color: #0077a3;
+    /* 💬 チャットボットラッパー */
+    .chatbot-wrapper {
+      position: fixed;
+      bottom: 0;
+      right: 20px;
+      width: 45vw;      /* 横幅45% */
+      height: 60vh;     /* 縦幅60% */
+      z-index: 9999;
     }
 
     /* 💬 チャットボットフレーム */
     .chatbot-frame {
-      position: fixed;
-      bottom: 0;          /* 下端に固定 */
-      right: 20px;
-      width: 50vw;        /* 横幅50% */
-      height: 50vh;       /* 縦幅50% */
+      width: 100%;
+      height: 100%;
       border: none;
-      border-radius: 12px 12px 0 0; /* 上だけ角丸 */
+      border-radius: 12px 12px 0 0;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 9999;
-      display: block;     /* 初期表示は開く */
     }
 
-    @media (max-width: 768px) {
-      .chatbot-frame {
-        width: 90%;
-        height: 50%;
-        right: 5%;
-        bottom: 0;
-      }
-      .chatbot-toggle {
-        top: 5px;
-        right: 10px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>MedDataHub株式会社</h1>
-    <nav>
-      <a href="#">サービス紹介</a>
-      <a href="#">データ分析</a>
-      <a href="#">料金プラン</a>
-      <a href="#">お問い合わせ</a>
-    </nav>
-  </header>
-
-  <div class="hero">
-    <h2>医療データで未来の医療を加速する</h2>
-    <p>私たちは信頼性の高い医療データを提供し、研究・分析・臨床現場の意思決定をサポートします。</p>
-  </div>
-
-  <section class="section">
-    <h3>サービス内容</h3>
-    <div class="cards">
-      <div class="card">
-        <h4>リアルタイム医療データ</h4>
-        <p>全国の医療機関から収集した最新データを提供。研究や分析に活用可能。</p>
-      </div>
-      <div class="card">
-        <h4>データ解析ツール</h4>
-        <p>簡単操作で統計解析や可視化が可能。医療研究を効率的にサポート。</p>
-      </div>
-      <div class="card">
-        <h4>カスタムレポート作成</h4>
-        <p>ユーザーのニーズに合わせた分析レポートを提供。意思決定をサポートします。</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="contact">
-    <h3>お問い合わせ</h3>
-    <p>〒100-0000 東京都千代田区○○ビル 5F</p>
-    <p>メール: support@meddatahub.co.jp</p>
-    <p>電話: 03-9876-5432</p>
-  </section>
-
-  <footer>
-    &copy; 2025 MedDataHub株式会社. All rights reserved.
-  </footer>
-
-  <!-- 💬 開閉ボタン付きチャットボット -->
-  <button class="chatbot-toggle" id="chatbotToggle">💬</button>
-  <iframe
-    id="chatbotFrame"
-    class="chatbot-frame"
-    src="https://udify.app/chatbot/dF3JUDnvQqnIwfOI"
-    allow="microphone">
-  </iframe>
-
-  <script>
-    const toggle = document.getElementById('chatbotToggle');
-    const frame = document.getElementById('chatbotFrame');
-    let isOpen = true; // 初期状態で開く
-
-    toggle.addEventListener('click', () => {
-      isOpen = !isOpen;
-      frame.style.display = isOpen ? 'block' : 'none';
-    });
-  </script>
-
-</body>
-</html>
+    /* 💬 開閉ボタン（iframe右上に固定） */
+    .chatbot-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width
