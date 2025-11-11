@@ -21,29 +21,40 @@
     .contact { background:#eef2f3; padding:40px 20px; text-align:center; }
     footer { background:#003366; color:#fff; text-align:center; padding:20px; font-size:14px; }
 
-    /* チャットコンテナ */
+    /* PCチャットコンテナ */
     #chatbot-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 400px;
+      width: 350px;
       height: 50vh;
       z-index: 9999;
-      cursor: move; /* ← ドラッグできる見た目 */
     }
     #chatbot-container.fullscreen {
       top: 0;
       bottom: 0;
       height: 100vh;
-      width: 400px;
       cursor: default;
     }
     #chatbot-pc {
-      width: 100%; height: 100%;
-      border: none; border-radius: 12px;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
+    /* ドラッグバー */
+    #chatbot-dragbar {
+      width: 100%;
+      height: 24px;
+      cursor: move;
+      background: rgba(0,0,0,0.1);
+      border-top-left-radius:12px;
+      border-top-right-radius:12px;
+    }
+
+    /* 外付けボタン */
     .chatbot-action {
       position: fixed; z-index:10000; font-size:16px; cursor:pointer; border:none;
       padding:8px 10px; border-radius:6px; color:#fff; box-shadow:0 3px 8px rgba(0,0,0,0.15);
@@ -98,26 +109,28 @@
 
 <footer>&copy; 2025 DATuM IDEA. All rights reserved.</footer>
 
-<!-- PC用チャット -->
+<!-- PCチャット -->
 <div id="chatbot-container">
+  <div id="chatbot-dragbar"></div>
   <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
 </div>
 <button id="chatbot-resize" class="chatbot-action">🔼</button>
 <button id="chatbot-close-pc">×</button>
 <button id="chatbot-show-pc">💬 チャットボット</button>
 
-<!-- スマホ用 -->
+<!-- スマホ -->
 <button id="chatbot-button">💬 チャットボットはこちら！</button>
 <iframe id="chatbot-sp" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
 <button id="chatbot-close-sp">×</button>
 
 <script>
   const container = document.getElementById('chatbot-container');
+  const dragbar = document.getElementById('chatbot-dragbar');
   const resizeBtn = document.getElementById('chatbot-resize');
   const closePcBtn = document.getElementById('chatbot-close-pc');
   const showPcBtn = document.getElementById('chatbot-show-pc');
 
-  // --- 拡大 / 縮小 ---
+  // 拡大 / 縮小
   let isFull = false;
   resizeBtn.addEventListener('click', () => {
     isFull = !isFull;
@@ -125,66 +138,57 @@
     resizeBtn.textContent = isFull ? '🔽' : '🔼';
   });
 
-  // --- 閉じる / 再表示 ---
+  // 閉じる / 再表示
   closePcBtn.addEventListener('click', () => {
-    container.style.display = 'none';
-    resizeBtn.style.display = 'none';
-    closePcBtn.style.display = 'none';
-    showPcBtn.style.display = 'block';
+    container.style.display='none';
+    resizeBtn.style.display='none';
+    closePcBtn.style.display='none';
+    showPcBtn.style.display='block';
   });
   showPcBtn.addEventListener('click', () => {
-    container.style.display = 'block';
-    resizeBtn.style.display = '';
-    closePcBtn.style.display = '';
-    showPcBtn.style.display = 'none';
+    container.style.display='block';
+    resizeBtn.style.display='';
+    closePcBtn.style.display='';
+    showPcBtn.style.display='none';
   });
 
-  // --- スマホ全画面 ---
+  // スマホ全画面
   const spOpenBtn = document.getElementById('chatbot-button');
   const spIframe = document.getElementById('chatbot-sp');
   const spCloseBtn = document.getElementById('chatbot-close-sp');
   spOpenBtn.addEventListener('click', () => {
-    spIframe.style.display = 'block';
-    spCloseBtn.style.display = 'block';
-    spOpenBtn.style.display = 'none';
+    spIframe.style.display='block';
+    spCloseBtn.style.display='block';
+    spOpenBtn.style.display='none';
   });
   spCloseBtn.addEventListener('click', () => {
-    spIframe.style.display = 'none';
-    spCloseBtn.style.display = 'none';
-    spOpenBtn.style.display = 'block';
+    spIframe.style.display='none';
+    spCloseBtn.style.display='none';
+    spOpenBtn.style.display='block';
   });
 
-  // --- ドラッグ移動（PCのみ） ---
-  let isDragging = false;
-  let offsetX, offsetY;
-
-  container.addEventListener('mousedown', (e) => {
-    // 全画面中はドラッグ禁止
-    if (container.classList.contains('fullscreen')) return;
-    isDragging = true;
-    offsetX = e.clientX - container.getBoundingClientRect().left;
-    offsetY = e.clientY - container.getBoundingClientRect().top;
-    container.style.transition = 'none';
+  // ドラッグ（PCのみ）
+  let isDragging=false, offsetX, offsetY;
+  dragbar.addEventListener('mousedown', (e)=>{
+    if(container.classList.contains('fullscreen')) return;
+    isDragging=true;
+    const rect = container.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    container.style.transition='none';
   });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
+  window.addEventListener('mousemove', (e)=>{
+    if(!isDragging) return;
     const newX = e.clientX - offsetX;
     const newY = e.clientY - offsetY;
     const maxX = window.innerWidth - container.offsetWidth;
     const maxY = window.innerHeight - container.offsetHeight;
-    container.style.left = Math.min(Math.max(0, newX), maxX) + 'px';
-    container.style.top = Math.min(Math.max(0, newY), maxY) + 'px';
-    container.style.right = 'auto';
-    container.style.bottom = 'auto';
+    container.style.left = Math.min(Math.max(0,newX),maxX)+'px';
+    container.style.top = Math.min(Math.max(0,newY),maxY)+'px';
+    container.style.right='auto';
+    container.style.bottom='auto';
   });
-
-  window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      container.style.transition = '';
-    }
-  });
+  window.addEventListener('mouseup', ()=>{ isDragging=false; container.style.transition=''; });
 </script>
 </body>
 </html>
