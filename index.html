@@ -50,20 +50,42 @@
     .contact p { margin: 10px 0; }
     footer { background-color: #003366; color: white; text-align: center; padding: 20px; font-size: 14px; }
 
-    /* PCチャットボット（縦幅50%） */
+    /* PCチャットボット */
     #chatbot-pc {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 400px;
-      height: 50vh; /* 画面高さの半分 */
+      height: 50vh; /* デフォルトは画面半分 */
       border: none;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       z-index: 9999;
     }
 
-    /* SPチャットボタン */
+    /* 拡大縮小ボタン */
+    #chatbot-resize {
+      position: fixed;
+      bottom: calc(50vh + 25px); /* iframe上端付近の右上 */
+      right: 20px;
+      z-index: 10000;
+      background-color: #1C64F2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #chatbot-pc.fullscreen {
+      height: 100vh;
+    }
+    #chatbot-resize.fullscreen {
+      bottom: 20px; /* iframe上端が画面上端になるので調整 */
+    }
+
+    /* SP用チャットボタン */
     #chatbot-button {
       display: none;
       position: fixed;
@@ -80,7 +102,7 @@
       z-index: 9999;
     }
 
-    /* SPチャットiframe全画面 */
+    /* SP用全画面iframe */
     #chatbot-sp {
       display: none;
       position: fixed;
@@ -90,7 +112,6 @@
       z-index: 10000;
       background-color: white;
     }
-
     #chatbot-close {
       display: none;
       position: fixed;
@@ -106,7 +127,7 @@
     }
 
     @media (max-width: 768px) {
-      #chatbot-pc { display: none; }
+      #chatbot-pc, #chatbot-resize { display: none; }
       #chatbot-button { display: block; }
     }
   </style>
@@ -157,31 +178,48 @@
     &copy; 2025 DATuM IDEA. All rights reserved.
   </footer>
 
-  <!-- PC用 -->
+  <!-- PC用チャットボットと拡大縮小 -->
   <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
+  <button id="chatbot-resize">🔼</button>
 
   <!-- SP用ボタン -->
   <button id="chatbot-button">💬 チャットボットはこちら！</button>
 
-  <!-- SP用全画面チャット -->
+  <!-- SP用全画面iframe -->
   <iframe id="chatbot-sp" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
   <button id="chatbot-close">×</button>
 
   <script>
+    // SP用開閉
     const btn = document.getElementById('chatbot-button');
     const spIframe = document.getElementById('chatbot-sp');
     const spClose = document.getElementById('chatbot-close');
-
     btn.addEventListener('click', () => {
       spIframe.style.display = 'block';
       spClose.style.display = 'block';
       btn.style.display = 'none';
     });
-
     spClose.addEventListener('click', () => {
       spIframe.style.display = 'none';
       spClose.style.display = 'none';
       btn.style.display = 'block';
+    });
+
+    // PC用拡大縮小
+    const pcIframe = document.getElementById('chatbot-pc');
+    const resizeBtn = document.getElementById('chatbot-resize');
+    let isFull = false;
+    resizeBtn.addEventListener('click', () => {
+      isFull = !isFull;
+      if (isFull) {
+        pcIframe.classList.add('fullscreen');
+        resizeBtn.classList.add('fullscreen');
+        resizeBtn.textContent = '🔽';
+      } else {
+        pcIframe.classList.remove('fullscreen');
+        resizeBtn.classList.remove('fullscreen');
+        resizeBtn.textContent = '🔼';
+      }
     });
   </script>
 
