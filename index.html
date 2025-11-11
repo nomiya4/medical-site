@@ -133,14 +133,19 @@
       background-color: #0099cc;
       color: white;
       border: none;
-      font-size: 24px;
+      font-size: 28px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
       z-index: 10;
     }
 
     .chatbot-toggle:hover {
       background-color: #0077a3;
+      transform: scale(1.1);
     }
 
     @media (max-width: 768px) {
@@ -214,7 +219,7 @@
       src="https://udify.app/chatbot/XTy3d5wCEH764qlq"
       allow="microphone">
     </iframe>
-    <button class="chatbot-toggle" id="chatbotToggle">💬</button>
+    <button class="chatbot-toggle" id="chatbotToggle">×</button>
   </div>
 
   <script>
@@ -225,10 +230,9 @@
     toggle.addEventListener('click', () => {
       isOpen = !isOpen;
       iframe.style.display = isOpen ? 'block' : 'none';
+      toggle.textContent = isOpen ? "×" : "☁️"; // アイコン切替
     });
   </script>
 
 </body>
 </html>
-
-
