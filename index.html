@@ -34,11 +34,6 @@ footer { background:#003366; color:#fff; text-align:center; padding:20px; font-s
   flex-direction:column;
 }
 
-#chatbot-container.fullscreen {
-  top:0; bottom:0;
-  height:100vh;
-}
-
 #chatbot-dragbar {
   height:24px;
   background: rgba(0,0,0,0.1);
@@ -129,12 +124,34 @@ const resizeBtn=document.getElementById('chatbot-resize');
 const closePcBtn=document.getElementById('chatbot-close-pc');
 const showPcBtn=document.getElementById('chatbot-show-pc');
 
-// 拡大 / 縮小
 let isFull=false;
+let prevPos={top:null,left:null};
+
+// 拡大 / 縮小
 resizeBtn.addEventListener('click',()=>{
-  isFull=!isFull;
-  container.classList.toggle('fullscreen',isFull);
-  resizeBtn.textContent=isFull?'🔽':'🔼';
+  if(!isFull){
+    // 縦幅全画面化前に位置保存
+    const rect=container.getBoundingClientRect();
+    prevPos={top:rect.top,left:rect.left,width:rect.width,height:rect.height};
+    container.style.top='0px';
+    container.style.left=`calc(50% - ${rect.width/2}px)`;
+    container.style.bottom='0px';
+    container.style.right='auto';
+    container.style.height='100vh';
+    container.classList.add('fullscreen');
+    resizeBtn.textContent='🔽';
+    isFull=true;
+  }else{
+    // 元の位置に戻す
+    container.style.top=prevPos.top+'px';
+    container.style.left=prevPos.left+'px';
+    container.style.bottom='20px';
+    container.style.right='20px';
+    container.style.height=prevPos.height+'px';
+    container.classList.remove('fullscreen');
+    resizeBtn.textContent='🔼';
+    isFull=false;
+  }
 });
 
 // 閉じる / 再表示
