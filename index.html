@@ -102,6 +102,28 @@
       padding: 20px;
       font-size: 14px;
     }
+
+    /* 📱 レスポンシブ対応 */
+    .chatbot-frame {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 400px;
+      height: 600px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 9999;
+    }
+
+    @media (max-width: 768px) {
+      .chatbot-frame {
+        width: 90%;
+        height: 70%;
+        right: 5%;
+        bottom: 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -121,25 +143,6 @@
     <p>最先端のバイオ医薬品と研究技術で、人々の健康と未来に貢献します。</p>
   </div>
 
-  <iframe
-  src="https://udify.app/chatbot/dF3JUDnvQqnIwfOI"
-  style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 400px;
-    height: 600px;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    z-index: 9999;
-  "
-  allow="microphone">
-</iframe>
-
-  
-</body>
-</html>
   <section class="section">
     <h3>事業内容</h3>
     <div class="cards">
@@ -169,8 +172,12 @@
     &copy; 2025 ファルマテック株式会社. All rights reserved.
   </footer>
 
+  <!-- 💬 Difyチャットボット -->
+  <iframe
+    class="chatbot-frame"
+    src="https://udify.app/chatbot/dF3JUDnvQqnIwfOI"
+    allow="microphone">
+  </iframe>
 
-
-
-
-
+</body>
+</html>
