@@ -11,14 +11,7 @@
       background-color: #f8f9fa;
       color: #333;
     }
-    header {
-      background-color: #003366;
-      color: white;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    header { background-color: #003366; color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
     header h1 { margin: 0; font-size: 24px; }
     nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
     .hero { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1581092334494-05b6a3c8fcd1'); background-size: cover; background-position: center; color: white; text-align: center; padding: 100px 20px; }
@@ -33,118 +26,7 @@
     .contact p { margin: 10px 0; }
     footer { background-color: #003366; color: white; text-align: center; padding: 20px; font-size: 14px; }
 
-    /* PCチャットボット */
-    #chatbot-pc {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 400px;
-      height: 50vh;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 9999;
-    }
-
-    /* 拡大縮小ボタン */
-    #chatbot-resize {
-      position: absolute;
-      top: 8px;
-      right: 36px; /* 閉じるボタンの左 */
-      z-index: 10000;
-      background-color: #1C64F2;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 4px 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    /* 閉じるボタン */
-    #chatbot-close-pc {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      z-index: 10001;
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* 再表示ボタン */
-    #chatbot-show-pc {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #1C64F2;
-      color: white;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 50px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 9999;
-    }
-
-    /* SP用ボタン */
-    #chatbot-button {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #1C64F2;
-      color: white;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 50px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 9999;
-    }
-
-    /* SP全画面iframe */
-    #chatbot-sp {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: none;
-      z-index: 10000;
-      background-color: white;
-    }
-    #chatbot-close-sp {
-      display: none;
-      position: fixed;
-      top: 20px; right: 20px;
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 36px; height: 36px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 10001;
-    }
-
-    /* PC拡大時 */
-    #chatbot-pc.fullscreen { height: 100vh; }
-    #chatbot-resize.fullscreen { top: 8px; right: 36px; }
-
-    @media (max-width: 768px) {
-      #chatbot-pc, #chatbot-resize, #chatbot-close-pc, #chatbot-show-pc { display: none; }
-      #chatbot-button { display: block; }
-    }
-
-    /* iframe内ボタン親要素 */
+    /* PCチャットボット用コンテナ */
     #chatbot-container {
       position: fixed;
       bottom: 20px;
@@ -152,6 +34,71 @@
       width: 400px;
       height: 50vh;
       z-index: 9999;
+    }
+
+    #chatbot-pc {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* PC用外付けボタン */
+    #chatbot-resize, #chatbot-close-pc, #chatbot-show-pc {
+      position: fixed;
+      z-index: 10000;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: white;
+    }
+
+    #chatbot-resize {
+      background-color: #1C64F2;
+    }
+    #chatbot-close-pc {
+      background-color: #ff4d4d;
+    }
+    #chatbot-show-pc {
+      background-color: #1C64F2;
+      display: none;
+      bottom: 20px;
+      right: 20px;
+    }
+
+    /* ボタン位置 */
+    #chatbot-resize { bottom: calc(50vh + 25px); right: 20px; }
+    #chatbot-close-pc { bottom: calc(50vh + 25px); right: 90px; }
+
+    /* 拡大時ボタン位置調整 */
+    #chatbot-pc.fullscreen + #chatbot-resize { bottom: 20px; }
+    #chatbot-pc.fullscreen + #chatbot-close-pc { bottom: 20px; }
+
+    /* SP用 */
+    #chatbot-button {
+      display: none;
+      position: fixed; bottom: 20px; right: 20px;
+      background-color: #1C64F2; color: white;
+      padding: 12px 18px; border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-size: 14px; cursor: pointer; z-index: 9999;
+    }
+    #chatbot-sp {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      border: none; z-index: 10000; background-color: white;
+    }
+    #chatbot-close-sp {
+      display: none; position: fixed; top: 20px; right: 20px;
+      background-color: #ff4d4d; color: white; border: none; border-radius: 50%;
+      width: 36px; height: 36px; font-weight: bold; cursor: pointer; z-index: 10001;
+    }
+
+    @media (max-width: 768px) {
+      #chatbot-container, #chatbot-resize, #chatbot-close-pc, #chatbot-show-pc { display: none; }
+      #chatbot-button { display: block; }
     }
   </style>
 </head>
@@ -190,12 +137,12 @@
 
   <footer>&copy; 2025 DATuM IDEA. All rights reserved.</footer>
 
-  <!-- PCチャットボットとボタン -->
+  <!-- PCチャットボット -->
   <div id="chatbot-container">
     <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
-    <button id="chatbot-resize">🔼</button>
-    <button id="chatbot-close-pc">×</button>
   </div>
+  <button id="chatbot-resize">🔼</button>
+  <button id="chatbot-close-pc">×</button>
   <button id="chatbot-show-pc">💬 チャットボット</button>
 
   <!-- SP用 -->
@@ -211,20 +158,23 @@
     resizeBtn.addEventListener('click', () => {
       isFull = !isFull;
       pcIframe.classList.toggle('fullscreen', isFull);
-      resizeBtn.classList.toggle('fullscreen', isFull);
       resizeBtn.textContent = isFull ? '🔽' : '🔼';
     });
 
     // PC閉じる / 再表示
+    const container = document.getElementById('chatbot-container');
     const closePc = document.getElementById('chatbot-close-pc');
     const showPc = document.getElementById('chatbot-show-pc');
-    const container = document.getElementById('chatbot-container');
     closePc.addEventListener('click', () => {
       container.style.display = 'none';
+      resizeBtn.style.display = 'none';
+      closePc.style.display = 'none';
       showPc.style.display = 'block';
     });
     showPc.addEventListener('click', () => {
       container.style.display = 'block';
+      resizeBtn.style.display = 'inline-block';
+      closePc.style.display = 'inline-block';
       showPc.style.display = 'none';
     });
 
@@ -243,6 +193,5 @@
       btn.style.display = 'block';
     });
   </script>
-
 </body>
 </html>
