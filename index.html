@@ -7,11 +7,10 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #f8f9fa;
       color: #333;
     }
-
     header {
       background-color: #003366;
       color: white;
@@ -20,19 +19,16 @@
       justify-content: space-between;
       align-items: center;
     }
-
     header h1 {
       margin: 0;
       font-size: 24px;
     }
-
     nav a {
       color: white;
       text-decoration: none;
       margin-left: 20px;
       font-size: 14px;
     }
-
     .hero {
       background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1581092334494-05b6a3c8fcd1');
       background-size: cover;
@@ -41,67 +37,21 @@
       text-align: center;
       padding: 100px 20px;
     }
-
-    .hero h2 {
-      font-size: 36px;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .section {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
+    .hero h2 { font-size: 36px; margin-bottom: 20px; }
+    .hero p { font-size: 18px; max-width: 600px; margin: 0 auto; }
+    .section { padding: 60px 20px; max-width: 1000px; margin: auto; }
     .section h3 {
       font-size: 24px;
       margin-bottom: 20px;
       border-left: 6px solid #0077b6;
       padding-left: 12px;
     }
-
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .card {
-      flex: 1;
-      min-width: 250px;
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .card h4 {
-      margin-top: 0;
-    }
-
-    .contact {
-      background-color: #eef2f3;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .contact p {
-      margin: 10px 0;
-    }
-
-    footer {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-    }
+    .cards { display: flex; flex-wrap: wrap; gap: 20px; }
+    .card { flex: 1; min-width: 250px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .card h4 { margin-top: 0; }
+    .contact { background-color: #eef2f3; padding: 40px 20px; text-align: center; }
+    .contact p { margin: 10px 0; }
+    footer { background-color: #003366; color: white; text-align: center; padding: 20px; font-size: 14px; }
 
     /* PCチャットボット */
     #chatbot-pc {
@@ -116,7 +66,7 @@
       z-index: 9999;
     }
 
-    /* SP用ボタン */
+    /* SPチャットボタン */
     #chatbot-button {
       display: none;
       position: fixed;
@@ -128,51 +78,40 @@
       border: none;
       border-radius: 50px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 9999;
       font-size: 14px;
       cursor: pointer;
+      z-index: 9999;
     }
 
-    /* SP用iframe（全画面表示） */
+    /* SPチャットiframe全画面 */
     #chatbot-sp {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       border: none;
       z-index: 10000;
       background-color: white;
     }
 
-    /* SP用閉じるボタン */
     #chatbot-close {
       display: none;
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 20px; right: 20px;
       background-color: #ff4d4d;
       color: white;
       border: none;
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       font-weight: bold;
       cursor: pointer;
       z-index: 10001;
     }
 
-    /* メディアクエリでSP対応 */
     @media (max-width: 768px) {
-      #chatbot-pc {
-        display: none;
-      }
-      #chatbot-button {
-        display: block;
-      }
+      #chatbot-pc { display: none; }
+      #chatbot-button { display: block; }
     }
-
   </style>
 </head>
 <body>
@@ -187,4 +126,67 @@
     </nav>
   </header>
 
-  <div class=
+  <div class="hero">
+    <h2>未来の医療を、いま創る。</h2>
+    <p>最先端の医療データと研究技術で、人々の健康と未来に貢献します。</p>
+  </div>
+
+  <section class="section">
+    <h3>事業内容</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>医療データ提供</h4>
+        <p>全国の医療機関から収集した信頼性の高いデータを提供。</p>
+      </div>
+      <div class="card">
+        <h4>解析・可視化ツール</h4>
+        <p>直感的な操作でデータ解析や可視化が可能です。</p>
+      </div>
+      <div class="card">
+        <h4>カスタムレポート</h4>
+        <p>用途に合わせた分析レポートを作成し、意思決定を支援します。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h3>お問い合わせ</h3>
+    <p>〒100-0000 東京都千代田区○○ビル 5F</p>
+    <p>メール: contact@datumidea.co.jp</p>
+    <p>電話: 03-1234-5678</p>
+  </section>
+
+  <footer>
+    &copy; 2025 DATuM IDEA. All rights reserved.
+  </footer>
+
+  <!-- PC用 -->
+  <iframe id="chatbot-pc" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
+
+  <!-- SP用ボタン -->
+  <button id="chatbot-button">💬 チャットボットはこちら！</button>
+
+  <!-- SP用全画面チャット -->
+  <iframe id="chatbot-sp" src="https://udify.app/chatbot/XTy3d5wCEH764qlq" allow="microphone"></iframe>
+  <button id="chatbot-close">×</button>
+
+  <script>
+    const btn = document.getElementById('chatbot-button');
+    const spIframe = document.getElementById('chatbot-sp');
+    const spClose = document.getElementById('chatbot-close');
+
+    btn.addEventListener('click', () => {
+      spIframe.style.display = 'block';
+      spClose.style.display = 'block';
+      btn.style.display = 'none';
+    });
+
+    spClose.addEventListener('click', () => {
+      spIframe.style.display = 'none';
+      spClose.style.display = 'none';
+      btn.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
